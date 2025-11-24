@@ -1,4 +1,8 @@
 #DISCLAIMER: "yourPictureFunction()" IS HEAVILY INSPIRED BY PROFESSORS IN CLASS FUNCTION. THIS IS INSPIRED BY THAT CODE AND CHANGED TO BE MORE EFFICIENT FOR MY VERSION OF THE SCRIPT
+\
+
 #The user should scroll all the way down to the "yourPictureFunction()" function and if they want an rectangle. They will call the function "generateEmptyPicture(x,y)" and replace the parameters x and y with how big horiziontally and vertically (respectfully) the desired image should be
+
 #The user should then go lower and if they want to make an rectangle on the image, they should call the function "addRectangleToList(x1,x2,y1,y2,convertPixel([R,G,B])" and fill in the x1 and x2 points and y1 and y2 points of how big they want the rectangle to be using pixel coordinates. They should then change the paramters "R,G,B" with the RGB of the color that they want that rectangle to be.
+
 #The user should then go lower and if they want to make an circle on the image, they should call the function "addCircleToList(x,y,radius,convertPixel([R,G,B])" and fill in the x and y and radius values for the pixel location and radius size of the circle on the empty image. They should then change the paramters "R,G,B" with the RGB of the color that they want that circle to be.
