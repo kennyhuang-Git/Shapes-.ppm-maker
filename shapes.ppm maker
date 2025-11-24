@@ -1,0 +1,204 @@
+def clampValueToRange(value,low,high):
+    if value<low:
+        answer = int(low)
+    if value>=low and value<=high:
+        answer = int(value)
+    if value>high:
+        answer = int(high)
+    return answer
+
+
+def returnColor(line):
+    lst = line.split(" ")
+    lst2 = []
+    start = 3
+    for idx in range(len(lst)):
+        x = int(lst[idx])
+        lst2.append(x)
+    for idx in range(start,len(lst)):
+        lst2.pop()
+    return lst2
+
+def returnLocation(line):
+    lst = line.split(" ")
+    lst2 = []
+    start = 3
+    for idx in range(3,5):
+        x = int(lst[idx])
+        lst2.append(x)
+    return lst2
+def locationValid(x,width,y,height):
+    if x>=0 and y>=0 and x<width and y<height:
+        answer = True
+    else:
+        answer = False
+    return answer
+    
+#convertPixel([-10,235,12]) should return {"r":0,"g":235,"b":12}
+#low = 0 high = 255
+def convertPixel(color):
+    names = ["r","g","b"]
+    dic = {}
+    for idx in range(len(color)):
+        x = clampValueToRange(color[idx],0,255)
+        dic[names[idx]] = x
+    return dic
+
+
+#x represents the x location of the pixel
+#y represents the y location of the pixel
+#color is the dictonary created by convertPixel
+def positionPixel(x,y, color):
+    dic = {"pixel":color}
+    dic["x"] = x
+    dic["y"] = y
+    return dic
+
+#pixel is the dictonary created by positionPixel
+#pixelList is another dictonary created by positionPixel
+#the purpose of this function is to add new pixels to the pixel list <-----most important part
+def updateChangeList(pixel,pixelList):
+        pixelList.append(pixel)
+
+
+    #dic is 
+def readPixelFile(pixels,filename):
+    with open(filename) as file:
+        lst = []
+
+    
+        for line in file:
+            line.rstrip("\r\n")
+
+            #first part of list
+            part1 = returnColor(line)
+            dic1 = convertPixel(part1)
+
+            #the last 2 key value pairs
+            part2 = returnLocation(line)
+            final_dic = positionPixel(part2[0],part2[1], dic1)
+            x = updateChangeList(final_dic,pixels)
+
+
+def rowmaker(row):
+    lst = []
+    dic = {}
+    dic["r"] = 0
+    dic["g"] = 0
+    dic["b"] = 0
+    for idx in range(row):
+        lst.append(dic)
+    return lst
+
+def generateEmptyPicture(width,height):
+    big_lst = []
+    for idx in range(height):
+        lst = rowmaker(width)
+        big_lst.append(lst)
+    return big_lst
+
+def insertPixelList(pixels,image):
+    height = len(image)
+    width = len(image[0])
+    for idx in range(len(pixels)):
+        dic = pixels[idx]
+        lst = dic["pixel"]
+        x = dic["x"]
+        y = dic["y"]
+        if locationValid(x,width,y,height):
+            image[y][x] = lst
+
+
+def writePPM(image,filename):
+    columns = len(image[0])
+    rows = len(image)
+    
+    with open(filename,"a") as file:
+        file.write("P3" + "\n")
+        file.write(str(columns) + " " + str(rows) + "\n")
+        file.write("255")
+        file.write("\n")
+        for idx in range(len(image)):
+            lst = image[idx]
+            for num in range(len(lst)):
+                lsts = lst[num]
+                file.write(str(lsts["r"]) + str(" ") + str(lsts["g"]) + " " + str(lsts["b"]) + "\n")
+
+
+#xT and yT are always 1:1 so just go up +1
+# (xT − x)2 + (yT − y)2 ≤ (r)(r)
+def append(color,xT,yT):
+    dic = {}
+    dic["x"] = xT
+    dic["y"] = yT
+    dic["pixel"] = color
+    return dic
+def addCircleToList(x,y,r,color,pixels):
+    for yT in range(y-r,y+r+1):
+        for xT in range(x-r,x+r+1):
+            total = ((xT-x)*(xT-x)) + ((yT-y)*(yT-y))
+            if total <= (r*r):
+                pixels.append(append(color,xT,yT))
+
+
+def dicmaker(idx,num,pixel):
+    pixele = {}
+    pixele["x"] = idx
+    pixele["y"] = num
+    pixele["pixel"] = pixel
+    return pixele 
+    
+def addRectangleToList(x1,x2,y1,y2,pixel,pixels):
+    if x1<x2:
+        if y1<y2:
+            for idx in range(x1,x2+1):
+                for num in range(y1,y2+1):
+                    pixels.append(dicmaker(idx,num,pixel))
+        elif y1>=y2:
+            for idx in range(x1,x2+1):
+                for num in range(y2,y1+1):
+                    pixels.append(dicmaker(idx,num,pixel))
+    elif x1>=x2:
+        if y1<y2:
+            for idx in range(x2,x1+1):
+                for num in range(y1,y2+1):
+                    pixels.append(dicmaker(idx,num,pixel))
+        elif y1>=y2:
+            for idx in range(x2,x1+1):
+                for num in range(y2,y1+1):
+                    pixels.append(dicmaker(idx,num,pixel))
+                    
+                    
+
+
+
+
+                    
+
+
+
+
+
+
+            
+#circle and rectangle
+#DISCLAIMER: "yourPictureFunction()" IS HEAVILY INSPIRED BY PROFESSORS IN CLASS FUNCTION. THIS IS INSPIRED BY THAT CODE AND CHANGED TO BE MORE EFFICIENT FOR MY VERSION OF THE SCRIPT
+def yourPictureFunction():
+        im1=generateEmptyPicture(900,900)
+        pixels=[]
+        #User should start here. They can add an rectangle using the addRectangleToList function and an circle using the addCircleToList function
+        #here is the template of the 2 functions, the user can add as many rectangles as they want
+
+        addRectangleToList(x1,x2,y1,y2,convertPixel([R,G,B]),pixels)
+        addCircleToList(x,y,radius,convertPixel([4,6,0]),pixels)
+
+
+        
+            
+        insertPixelList(pixels,im1)
+        insertPixelList(pixels,im1)
+        writePPM(im1,"image1.ppm")
+
+yourPictureFunction()
+        
+
