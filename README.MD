@@ -1,5 +1,5 @@
 #DISCLAIMER: "yourPictureFunction()" IS HEAVILY INSPIRED BY PROFESSORS IN CLASS FUNCTION. THIS IS INSPIRED BY THAT CODE AND CHANGED TO BE MORE EFFICIENT FOR MY VERSION OF THE SCRIPT
-\
+
 
 #The user should scroll all the way down to the "yourPictureFunction()" function and if they want an rectangle. They will call the function "generateEmptyPicture(x,y)" and replace the parameters x and y with how big horiziontally and vertically (respectfully) the desired image should be
 
